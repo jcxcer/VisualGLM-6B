@@ -12,9 +12,10 @@ model = model.eval()
 
 def main():
     history = []
+    query = sys.argv[1]
+    file_name = sys.argv[2]
+    file_url = sys.argv[3]
 
-    file_url = sys.argv[2]
-    file_name = sys.argv[3]
     file_content = requests.get(file_url)
     file_hash = hashlib.md5(file_content.content).hexdigest()
     if file_name == '':
@@ -29,7 +30,6 @@ def main():
         open(filepath, 'wb').write(file_content.content)
 
     image_path = filepath
-    query = sys.argv[1]
 
     with torch.no_grad():
         response, history = model.chat(tokenizer, image_path, query, history=history)
